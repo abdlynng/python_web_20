@@ -25,5 +25,18 @@ def trajet(request, pk):
 
 def conducteur(request,pk):
     c = Conducteur.objects.get(id=pk)
-    p = c.prenom +" | "+ c.nom +" | "+str(c.nbre_place) +" | "
-    return HttpResponse(p)
+    t = Trajet.objects.all()
+    p = []
+    p.append(c.prenom)
+    p.append(c.nom)
+    p.append(str(c.nbre_place))
+    
+    for t1 in t:
+        if c.id == t1.conducteur_id:
+            p.append(str(t1.id))
+            p.append(t1.depart)
+            p.append(t1.arrive)
+            p.append(str(t1.prix))
+    #p = c.prenom +" | "+ c.nom +" | "+str(c.nbre_place) +" | "
+    m = ' | '.join(p)
+    return HttpResponse(m)
